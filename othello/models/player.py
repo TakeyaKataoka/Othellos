@@ -5,6 +5,7 @@ class Player():
         self.is_computer = is_computer
         self.hands = []
  
-    
+
     def put_stone(self, hands) -> None:
         self.hands = hands
+        

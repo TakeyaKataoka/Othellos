@@ -1,41 +1,37 @@
-
 import numpy as np
+
+from othello.models.player import Player
 
 # 盤面のクラス
 class Board():
-    def __init__(self, board_size=8) -> None:
-        # ボードのサイズを指定
-        self.board_size = board_size
+    def __init__(self) -> None:
 
         # ボードを作成し、場所に応じて数値を割り振る
-        self.board = np.zeros((self.board_size + 2, self.board_size + 2), dtype=int)
+        self.board = np.zeros((10, 10), dtype=int)
         
         self.board[0, :] = 2 # 壁　：　２＝Wall
         self.board[:, 0] = 2
-        self.board[board_size + 1, :] = 2
-        self.board[:, board_size + 1] = 2
+        self.board[9, :] = 2
+        self.board[:, 9] = 2
         
         self.board[4, 4] = 1 # 初期配置　：　１＝White、−１＝Black 
         self.board[5, 5] = 1
         self.board[4, 5] = -1
         self.board[5, 4] = -1
 
+        # 石が置ける場所を保持するボード（黒、白）を作成し、場所に応じてbool値を割り振る
+        self.black_position = np.zeros((10, 10), dtype=bool)
+        self.white_position = np.zeros((10, 10), dtype=bool)
+
+        # 現在のプレイヤーの色　：　黒スタート
+        self.player_color = -1
+
         # リバース可能な石を記録する
         self.reverse_stones = []
 
-        # 石が置ける場所を保持するボード（黒、白）を作成し、場所に応じてbool値を割り振る
-        self.black_position = np.zeros((self.board_size + 2, self.board_size + 2), dtype=bool)
-        self.white_position = np.zeros((self.board_size + 2, self.board_size + 2), dtype=bool)
-        for y in range(1,9):
-            for x in range(1, 9):
-                self.black_position[y, x] = self.is_reversed([y, x], -1)
-                self.white_position[y, x] = self.is_reversed([y, x], 1)
-
-        # 現在のプレイヤーの色　：　黒スタßßート
-        self.player_color = -1
-
-        
-
+    def add_player(self, player_black: Player, player_white: Player):
+        self.player_black = player_black
+        self.player_white = player_white
 
 
     def put_stone(self, hands: list) -> None:
@@ -47,39 +43,39 @@ class Board():
 
 
     def is_put_stone(self, hands: list) -> bool:
-        h1 = hands[0]
-        h2 = hands[1]
 
-        #1 有効なマスを洗濯していない場合
+        #1 数字（int）以外が入力された場合
+        for hand in hands:
+            if not str.isdigit(hand):
+                print("有効な入力ではありません。")
+                return False
+        # 数字に変換する
+        h1 = int(hands[0])
+        h2 = int(hands[1])
+
+        #2 有効なマスを洗濯していない場合
         if (h1 < 1 or 8 < h1) or (h2 < 1 or 8 < h2):
             print("有効なマスではありません。")
             return False
 
-        #2 すでに駒がある場合
+        #3 すでに駒がある場合
         if self.board[h1, h2] != 0:
             print("既に石が存在します。")
             return False
 
-        #3 1方向でもTrueである場合
-        if self.is_reversed(hands, self.player_color):
-            return True
+        #4 1方向もリバースできない場合
+        if not self.is_reversed(hands, self.player_color):
+            print("リバースできる石がありません。")
+            return False
                 
-        # 置けない場所に石がない場合
-        print("そこには石が置けません")
-        return False
+        return True
 
 
     def is_reversed(self, hands: list, color: int):
-        h1 = hands[0]
-        h2 = hands[1]
+        h1 = int(hands[0])
+        h2 = int(hands[1])
 
         # 石を返すことができるかを確認する
-        # [vertical, horizontal]
-        # vertical = {'down':-1, 'none':0, 'up':1]
-        # horizontal = {'left':-1, 'none':0, 'right':1]
-
-        # 置いた石から8方向の石を見ていく
-
         direction_bools = [] # 8方向全ての真偽を記録する
 
         for v in (-1, 0, 1):
@@ -123,8 +119,7 @@ class Board():
                 self.black_position[y, x] = self.is_reversed([y, x], -1)
                 self.white_position[y, x] = self.is_reversed([y, x], 1)
         
-        # プレイヤーを変更する
-        self.player_color = - self.player_color
+        # リバースできる石のリストを空にする
         self.reverse_stones = []
 
 
@@ -142,10 +137,7 @@ class Board():
             return False
 
         return True
-    
 
-    def test(self):
-        pass
-        # print(self.black_position)
-        # print(self.white_position)
-
+    def next(self):
+        # プレイヤーを変更する
+        self.player_color = - self.player_color

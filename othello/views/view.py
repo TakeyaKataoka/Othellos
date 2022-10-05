@@ -1,6 +1,7 @@
+
 import numpy as np
 
-from models.board import Board
+from othello.models.board import Board
 
 class View():
 	def __init__(self) -> None:
@@ -11,19 +12,18 @@ class View():
 		return input("ゲームを開始しますか（Y/n）:") == "Y"
 
 
-	def add_player(self) -> str:
+	def add_player(self, board: Board) -> str:
 		name = input("名前を入力してください：")
-		print(name + "さんが参加しました！")
+		print(name + "さんが参加しました！あなたの手番は" + self.color_convert(board.player_color))
 		return  name
 
 
-	def input_hands(self, name: str) -> list:
-		print(name + "さんの番です")
-		return [int(input("次の手を入力する(縦 1-8):")),
-				int(input("次の手を入力する(横 1-8):")),]
+	def input_hands(self) -> list:
+		return [(input("次の手を入力する(縦 1-8):")),
+				(input("次の手を入力する(横 1-8):")),]
 
 
-	def display(self, board: Board) -> None:
+	def display_board(self, board: Board) -> None:
 		# 文字へ変換
 		# -1 = black, 1 = white, 2 = wall
 		for y in range(10):
@@ -40,3 +40,18 @@ class View():
 		# 表示する
 		for stone in self.view_board:
 			print(*stone)
+	
+
+	def display_player(self, color: int) -> None:
+		color_str = self.color_convert(color)
+		print(color_str + "の手番です")
+
+
+	def color_convert(self, color: int) -> str:
+		if color == -1:
+			return "黒"
+		elif color == 1:
+			return "白"
+		else:
+			return None
+
