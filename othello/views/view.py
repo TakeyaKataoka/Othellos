@@ -1,7 +1,6 @@
 import numpy as np
 
-from board import Board
-
+from models.board import Board
 
 class View():
 	def __init__(self) -> None:
@@ -18,7 +17,7 @@ class View():
 		return  name
 
 
-	def input_hands(self, name) -> list:
+	def input_hands(self, name: str) -> list:
 		print(name + "さんの番です")
 		return [int(input("次の手を入力する(縦 1-8):")),
 				int(input("次の手を入力する(横 1-8):")),]

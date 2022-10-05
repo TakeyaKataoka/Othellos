@@ -1,8 +1,7 @@
 
-from board import Board
-from player import Player
-from view import View
-
+from models.board import Board
+from models.player import Player
+from views.view import View
 
 
 def main():
@@ -28,16 +27,21 @@ def main():
 			   Player(1, player_white),]
 
 	# ゲームを進める
-	while True:
+	while not board.is_gameover():
 		# 各プレイヤーごとに場面を進める
 		for player in players:
 			# ハンドを入力し、有効であれば次のプレイヤーに進める
 			while True:
 				hands = view.input_hands(player.name)
 
-				# 有効な場所に石を置く場合
+				# 有効な場所に石を置く
 				if board.is_put_stone(hands):
+
+					# 石を置く
 					board.put_stone(hands)
+
+					# 全てのリバース可能な石をリバースする
+					board.reverse()
 
 					# 置いた結果を表示する
 					view.display(board)
@@ -48,6 +52,11 @@ def main():
 				# 有効ではない場所に石を置く場合
 				else:
 					print("もう一度入力してください")
+			
+			# 勝敗を判定する
+			if board.is_gameover():
+				print("終わり！")
+				break
 
 
 if __name__ == '__main__':
