@@ -171,23 +171,19 @@ class Board():
 
     # ゲームが終わったかを判定する
     def is_gameover(self):
-        #1 勝利１　全てのますが埋まった場合
+        #（勝利条件１）　全てのますが埋まった場合
         if 0 not in self.board:
             return True
         
-        #2 勝利２　置いていお石が全て同じ色になった場合
+        #（勝利条件２）　置いていお石が全て同じ色になった場合
         if 1 not in self.board or 2 not in self.board:
             return True
 
-        #1 継続１ 次のプレイヤーが置ける場所がある
-        if  self.player_color == -1 and self.can_rev_pos_w[:, :].any():
+        #（継続）　どちらかにまだ置ける場所がある場合        
+        if self.can_rev_pos_b[:, :].any() or self.can_rev_pos_w[:, :].any():
             return False
 
-        #2 継続２ 次のプレイヤーが置ける場所がある
-        if self.player_color == 1 and self.can_rev_pos_b[:, :].any():
-            return False
-
-        return False
+        return True
 
 
     # プレイヤーを入れ替える
