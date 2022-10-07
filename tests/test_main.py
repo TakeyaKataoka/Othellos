@@ -3,7 +3,7 @@
 
 import unittest
 
-from othello.game import Main
+from othello.controller.game import Main
 
 class TestMain(unittest.TestCase):
     pass
