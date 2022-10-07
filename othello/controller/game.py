@@ -21,9 +21,9 @@ class Game():
 				print("白がパスしました")
 				self.board.next()
 				continue
-
+			
 			# 石を置くプレイヤーを表示
-			self.view.display_player(self.board.player_color)
+			self.view.display_player()
 
 			# 各プレイヤーが手を選択する
 			hands = []
@@ -52,8 +52,20 @@ class Game():
 			self.board.reverse()
 
 			# 置いた結果を表示する
-			self.view.display_board(self.board)
-			self.view.display_hand(self.board)
+			self.view.display_board()
+			self.view.display_hand()
+
+			# 石の置ける場所があるか判定し、もし置けなければパスする
+			if self.board.player_color == -1 and not self.board.can_rev_pos_b[:, :].any():
+				self.view.plus_row()
+				print("黒がパスしました")
+				self.board.next()
+				continue
+			elif self.board.player_color == 1 and not self.board.can_rev_pos_w[:, :].any():
+				self.view.plus_row()
+				print("白がパスしました")
+				self.board.next()
+				continue
 
 			# 勝敗を判定する
 			if self.board.is_gameover():

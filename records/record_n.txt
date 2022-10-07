@@ -1,6 +1,8 @@
-Y
-kataoka
-takeya
+n
+H
+H
+P1
+P2
 6
 5
 6
@@ -121,3 +123,4 @@ takeya
 6
 8
 7
+n

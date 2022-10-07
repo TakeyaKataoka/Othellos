@@ -8,21 +8,20 @@ from controller.game import Game
 
 def main():
     if input("コンピューター同士の戦いを監視しますか？（Y/n）")!= 'Y':
-        # ビュー（ユーザーインターフェース）を作成する
-        view = View()
+        # ボードを作成する
+        board = Board()
 
-        # ゲームを開始する場合、ボードを作成する
-        if view.start_game():
-            board = Board()
+        # ビュー（ユーザーインターフェース）を作成する
+        view = View(board)
         
         # 対戦相手を選ぶ
         flags = view.select_oppo()
 
         # プレイヤーの名前を聞く
-        player1_name = view.add_player(board)
+        player1_name = view.add_player()
         board.player_color = - board.player_color
 
-        player2_name = view.add_player(board) 
+        player2_name = view.add_player() 
         board.player_color = - board.player_color
 
         # ゲームにプレイヤーを追加する
@@ -52,10 +51,10 @@ def main():
         game.run()
 
         # 勝者を表示する
-        view.display_winner(board.winner)
+        view.display_winner()
 
 		# 棋譜を保存するか聞く
-        view.ask_record(board)
+        view.ask_record()
 
     # コンピュータ同士の勝敗を試す
     else:
@@ -66,8 +65,8 @@ def main():
         player_white = Computer(-1, algo2)
 
         for i in range(int(input("何回試しますか？"))):
-            view = View()
             board = Board()
+            view = View(board)
             
             game = Game(view,
                         board,

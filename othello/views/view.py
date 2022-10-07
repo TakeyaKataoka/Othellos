@@ -1,20 +1,15 @@
-
 import numpy as np
 
-from models.board import Board
-
+# （コンソール）ビューをユーザーに提供するクラス
 class View():
-	def __init__(self) -> None:
-		self.view_board = np.zeros((8 + 2, 8 + 2), dtype=str)
+	def __init__(self, board) -> None:
+		self.board = board
+		self.view_board = np.zeros((self.board.board_size + 2, self.board.board_size  + 2), dtype=str)
 
 
-	def start_game(self) -> bool:
-		return input("ゲームを開始しますか（Y/n）:") == "Y"
-
-
-	def add_player(self, board: Board) -> str:
+	def add_player(self) -> str:
 		name = input("名前を入力してください：")
-		print(name + "さんが参加しました！あなたの手番は" + self.color_convert(board.player_color))
+		print(name + "さんが参加しました！あなたの手番は" + self.color_convert(self.board.player_color))
 		return  name
 
 
@@ -32,16 +27,16 @@ class View():
 		return input("コンピューターの強さを洗濯してください（R : ★ \ S : ★★）")
 
 
-	def display_board(self, board: Board) -> None:
+	def display_board(self) -> None:
 		# 文字へ変換
 		# -1 = black, 1 = white, 2 = wall
 		for y in range(10):
 			for x in range(10):
-				if board.board[x, y] == 1:
+				if self.board.board[x, y] == 1:
 					self.view_board[x, y]= '●'
-				elif board.board[x, y] == -1:
+				elif self.board.board[x, y] == -1:
 					self.view_board[x, y] = '○'
-				elif board.board[x, y] == 2:
+				elif self.board.board[x, y] == 2:
 					self.view_board[x, y] = '■'
 				else:
 					self.view_board[x, y] = '-'
@@ -51,26 +46,27 @@ class View():
 			print(*stone)
 	
 
-	def display_hand(self, board: Board):
-		print(str(board.recent_hand) + "に石が置かれました")
+	def display_hand(self):
+		print(str(self.board.recent_hand) + "に石が置かれました")
 
 	
-	def ask_record(self, board: Board):
+	def ask_record(self):
 		self.plus_row()
 		print("今回の棋譜は以下の通りです！")
-		print(board.record_hands)
+		print(self.board.record_hands)
 		input("今回の棋譜を保存しますか？（Y/n）:")
+		# （未）記録する場合の処理を書く
 
 
-	def display_player(self, color: int) -> None:
+	def display_player(self) -> None:
 		self.plus_row()
-		color_str = self.color_convert(color)
+		color_str = self.color_convert(self.board.player_color)
 		print(color_str + "の手番です")
 
 
-	def display_winner(self, winner: str):
+	def display_winner(self):
 		self.plus_row()
-		print("勝者は「" + winner +"」です！")
+		print("勝者は「" + self.board.winner +"」です！")
 
 
 	def color_convert(self, color: int) -> str:
