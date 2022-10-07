@@ -9,7 +9,7 @@ class Computer():
     def select_hand(self, board) -> list:        
         #1 ランダムパターンである場合
         if self.algo.pattern == 'R': 
-            self.hands = self.algo.selct_random(board)
+            self.hands = self.algo.select_random(board)
 
         #2 簡単な評価関数アルゴリズムである場合
         elif self.algo.pattern == 'S':

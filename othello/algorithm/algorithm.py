@@ -37,7 +37,7 @@ class Algorithm():
 
 
     # ランダムに選択可能な手から選択する
-    def selct_random(self, board):
+    def selcet_random(self, board):
         if board.player_color == -1: # 黒
                 position = np.argwhere(board.can_rev_pos_b == True)
                 return [str(i) for i in (random.choice(position))]
