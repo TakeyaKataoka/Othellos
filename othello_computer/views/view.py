@@ -24,12 +24,8 @@ class View():
 
 	
 	def select_oppo(self):
-		return [input("プレイヤー1を選択してください（H : 人間　/ C : コンピューター）:"),
-				input("プレイヤー2を選択してください（H : 人間　/ C : コンピューター）:"),]
-
-	
-	def select_strength(self):
-		return input("コンピューターの強さを洗濯してください（R : ★ \ S : ★★）")
+		return [input("プレイヤー1を選択してください（H : 人間/C : コンピューター）:"),
+				input("プレイヤー2を選択してください（H : 人間/C : コンピューター）:"),]
 
 
 	def display_board(self, board: Board) -> None:
@@ -47,12 +43,13 @@ class View():
 					self.view_board[x, y] = '-'
 
 		# 表示する
-		for stone in self.view_board:
-			print(*stone)
+		# for stone in self.view_board:
+		# 	print(*stone)
 	
 
 	def display_hand(self, board: Board):
-		print(str(board.recent_hand) + "に石が置かれました")
+		pass
+		# print(str(board.recent_hand) + "に石が置かれました")
 
 	
 	def ask_record(self, board: Board):
@@ -65,12 +62,12 @@ class View():
 	def display_player(self, color: int) -> None:
 		self.plus_row()
 		color_str = self.color_convert(color)
-		print(color_str + "の手番です")
+		# print(color_str + "の手番です")
 
 
 	def display_winner(self, winner: str):
 		self.plus_row()
-		print("勝者は「" + winner +"」です！")
+		# print("勝者は「" + winner +"」です！")
 
 
 	def color_convert(self, color: int) -> str:
@@ -83,5 +80,6 @@ class View():
 
 	
 	def plus_row(self):
-		print('-------------------')
+		pass
+		# print('-------------------')
 

@@ -13,6 +13,10 @@ class TestBoard(unittest.TestCase):
         self.assertIsInstance(board.player_black, Player)
         self.assertIsInstance(board.player_white, Player)
 
+    def test_add_player_type_error(self):
+        board = Board()
+        self.assertRaises(TypeError, board.add_player, 10000, Player(1, "takeya"))
+
 
     def test_board_put_stone(self):
         # 範囲内の数字の場合(0-9)

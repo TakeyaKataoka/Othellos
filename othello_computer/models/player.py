@@ -21,6 +21,7 @@ class Player():
             return False
 
 
+
     def select_hand(self, board: Board, hands=[], ) -> list:
         #1 プレイヤーが人間の場合
         self.hands = hands
