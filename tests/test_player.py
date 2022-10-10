@@ -5,6 +5,7 @@ import unittest
 
 from othello.models.player import Player
 
+# test用のViewクラス
 class TestView():
     def __init__(self):
         pass
@@ -13,6 +14,7 @@ class TestView():
         return ['3', '4']
 
 
+# test用のBoardクラス
 class TestBoard():
     def __init__(self):
         self.recent_hand = []

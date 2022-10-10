@@ -6,6 +6,7 @@ import unittest
 from othello.models.computer import Computer
 
 
+# test用のBoardクラス
 class TestBoard():
     def __init__(self):
         self.recent_hand = []
@@ -14,6 +15,7 @@ class TestBoard():
         self.recent_hand = hands
 
 
+# test用のAlgorithhmクラス
 class TestAlgorithm():
     def __init__(self):
         self.pattern = 'R'
