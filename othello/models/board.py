@@ -51,6 +51,7 @@ class Board():
             for x in range(1, self.board_size + 1):
                 self.can_rev_pos_b[y, x] = self.is_reversible([y, x], -1) # black
                 self.can_rev_pos_w[y, x] = self.is_reversible([y, x], 1) # white
+        self.reversible_stones = []
 
 
     # 場面に石を置く
@@ -60,7 +61,7 @@ class Board():
         h2 = int(hands[1])
 
         # ボード状況を更新
-        self.board[h1, h2] = self.player_color#
+        self.board[h1, h2] = self.player_color
 
         # 直前に置かれた手を記録する
         self.recent_hand = hands
@@ -74,11 +75,13 @@ class Board():
     def set_winner(self):
         if np.count_nonzero(self.board == -1) > np.count_nonzero(self.board == 1):
             self.winner = -1
-        else:
+        elif np.count_nonzero(self.board == -1) < np.count_nonzero(self.board == 1):
             self.winner = 1
+        else:
+            pass
 
 
-    def is_put_stone(self, hands: list) -> (bool, str):
+    def can_set_stone(self, hands: list) -> (bool, str):
         #想定される問題
         reason = ""
 
@@ -174,18 +177,19 @@ class Board():
 
     # ゲームが終わったかを判定する
     def is_gameover(self):
-        #（勝利条件１）　全てのますが埋まった場合
+        #（終了条件１）　全てのますが埋まった場合
         if 0 not in self.board:
             return True
         
-        #（勝利条件２）　置いていお石が全て同じ色になった場合
-        if 1 not in self.board or 2 not in self.board:
+        #（終了条件２）　置いていお石が全て同じ色になった場合
+        if 1 not in self.board or -1 not in self.board:
             return True
 
         #（継続）　どちらかにまだ置ける場所がある場合        
         if self.can_rev_pos_b[:, :].any() or self.can_rev_pos_w[:, :].any():
             return False
 
+        # （終了条件３）どちらも駒が置けない場合
         return True
 
 

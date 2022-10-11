@@ -91,7 +91,7 @@ class Algorithm():
 
     # 簡単な評価関数のアルゴリズム
     def eval_hand(self):
-        w = -2
+        w = -1
         point = 0
         points =[]
         points_s = []

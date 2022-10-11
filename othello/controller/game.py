@@ -65,8 +65,6 @@ class Game():
 
 			self.board.player_color = -self.board.player_color
 
-		print(players_info)
-
 		return players_info
 
 
@@ -103,7 +101,7 @@ class Game():
 				hands = self.player_white.hands
 			
 			# 石を置こうとする場所が有効化どうかを確認する
-			putable, reason = self.board.is_put_stone(hands)
+			putable, reason = self.board.can_set_stone(hands)
 			if not putable:
 				self.view.announce_newinput(reason)
 				continue

@@ -7,15 +7,6 @@ class View():
 		self.view_board = np.zeros((self.board.board_size + 2, self.board.board_size  + 2), dtype=str)
 
 
-	def deco(f):
-		def plus_row(*args, **keywords):
-			print('-------------------')
-			result = f(*args, **keywords)
-			print('-------------------')
-			return result
-		return plus_row
-
-
 	def color_convert(self, color: int) -> str:
 		if color == -1:
 			return "黒"
@@ -58,16 +49,12 @@ class View():
 		print(reason + "\nもう一度入力してください")
 
 
-	@deco
 	def display_record(self):
-		print("今回の棋譜は以下の通りです！")
-		print(self.board.record_hands)
-
+		print("今回の棋譜は以下の通りです！\n" + self.board.record_hands)
 		# （未）記録する場合の処理を書く
 		# input("今回の棋譜を保存しますか？（Y/n）:")
 	
 
-	@deco
 	def display_board(self) -> None:
 		# 文字へ変換
 		# -1 = black, 1 = white, 2 = wall
@@ -87,24 +74,17 @@ class View():
 			print(*stone)
 	
 
-	@deco
 	def display_hand(self):
 		print(str(self.board.recent_hand) + "に石が置かれました")
 
 
-	@deco
 	def display_player(self) -> None:
 		color_str = self.color_convert(self.board.player_color)
 		print(color_str + "の手番です")
 
 
-	@deco
 	def display_winner(self):
-		print("勝者は「" + self.color_convert(self.board.winner) +"」です！")
-
-
-	
-
-	
-	
-
+		if self.board.winner == 0:
+			print("引き分けです！")
+		else:
+			print("勝者は「" + self.color_convert(self.board.winner) +"」です！")
