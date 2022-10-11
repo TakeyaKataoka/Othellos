@@ -1,8 +1,6 @@
 """Tests of computer.py
 """
-
-import unittest
-
+from unittest import TestCase
 from othello.models.computer import Computer
 
 
@@ -27,37 +25,47 @@ class TestAlgorithm():
         return ['3', '4']
 
 
-class TestComputer(unittest.TestCase):
+# Unittestクラス
+class TestComputer(TestCase):
     def setUp(self):
         self.testboard = TestBoard()
         self.testalgo = TestAlgorithm()
 
 
     def test_init(self):
-        self.assertIsInstance(Computer(-1, self.testalgo).player_color, int)
-        self.assertIsInstance(Computer(-1, self.testalgo, 'test').name, str)
-        self.assertIsInstance(Computer(1, self.testalgo).algo, TestAlgorithm)
-        self.assertEqual(Computer(1, self.testalgo).hands, [])
+        c = Computer(-1, self.testalgo)
+
+        # test 1
+        self.assertIsInstance(c.player_color, int)
+        self.assertIsInstance(c.name, str)
+        self.assertIsInstance(c.algo, TestAlgorithm)
+        self.assertEqual(c.hands, [])
 
 
     def test_select_hand(self):
-        p = Computer(1, self.testalgo, 'test')
-        p.select_hand(self.testboard)
-        self.assertEqual(p.hands, self.testalgo.select_random(self.testboard))
+        c = Computer(1, self.testalgo, 'test')
 
+        # test 2-1
+        c.select_hand(self.testboard)
+        self.assertEqual(c.hands, self.testalgo.select_random(self.testboard))
+
+        # test 2-2
         self.testalgo.pattern = 'S'
-        p.select_hand(self.testboard)
-        self.assertEqual(p.hands, self.testalgo.select_simopl_eval(self.testboard))
+        c.select_hand(self.testboard)
+        self.assertEqual(c.hands, self.testalgo.select_simopl_eval(self.testboard))
 
 
     def test_put_stone(self):
-        p = Computer(1, self.testalgo, 'test')
-        p.select_hand(self.testboard)
-        p.put_stone(self.testboard)
-        self.assertEqual(p.hands, ['7', '8'])
+        c = Computer(1, self.testalgo, 'test')
 
+        # test 3-1
+        c.select_hand(self.testboard)
+        c.put_stone(self.testboard)
+        self.assertEqual(c.hands, ['7', '8'])
+
+        # test 3-2
         self.testalgo.pattern = 'S'
-        p.select_hand(self.testboard)
-        p.put_stone(self.testboard)
-        self.assertEqual(p.hands, ['3', '4'])
+        c.select_hand(self.testboard)
+        c.put_stone(self.testboard)
+        self.assertEqual(c.hands, ['3', '4'])
                 

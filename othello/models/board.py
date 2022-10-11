@@ -26,7 +26,7 @@ class Board():
         self.record_hands = ''
 
         # 勝者を記録する
-        self.winner = ''
+        self.winner = 0
 
         # 初期化
         self.set_initboard()
@@ -73,17 +73,20 @@ class Board():
     # ボードの勝者を設定する
     def set_winner(self):
         if np.count_nonzero(self.board == -1) > np.count_nonzero(self.board == 1):
-            self.winner = '黒'
+            self.winner = -1
         else:
-            self.winner = '白'
+            self.winner = 1
 
 
-    def is_put_stone(self, hands: list) -> bool:
+    def is_put_stone(self, hands: list) -> (bool, str):
+        #想定される問題
+        reason = ""
+
         #1 数字（int）に変換できないhandsが入力された場合
         for hand in hands:
             if not str.isdigit(hand):
-                print("有効な入力ではありません。")
-                return False
+                reason = "有効な入力ではありません。"
+                return False, reason
 
         # 数字に変換する
         h1 = int(hands[0])
@@ -91,21 +94,21 @@ class Board():
 
         #2 有効なマスを洗濯していない場合
         if (h1 < 1 or 8 < h1) or (h2 < 1 or 8 < h2):
-            print("有効なマスではありません。")
-            return False
+            reason =  "有効なマスではありません。"
+            return False, reason
 
         #3 すでに駒がある場合
         if self.board[h1, h2] != 0:
-            print("既に石が存在します。")
-            return False
+            reason = "既に石が存在します。"
+            return False, reason
 
         #4 1方向もリバースできない場合
         if not self.is_reversible(hands, self.player_color):
-            print("リバースできる石がありません。")
-            return False
+            reason = "リバースできる石がありません。"
+            return False, reason
 
         # 全て問題がない場合
-        return True
+        return True, reason
 
 
     # リバースできるかの真偽を返し、返せる場所があれば属性(self.reversible_stones)で記録する
