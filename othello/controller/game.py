@@ -6,8 +6,6 @@ class Game():
 	def __init__(self, view, board) -> None:
 		self.view = view
 		self.board = board
-
-
 		
 
 	def prepare_player(self) -> list:

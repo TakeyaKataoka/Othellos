@@ -1,4 +1,3 @@
-
 from views.view import View
 from models.board import Board
 from models.player import Player
@@ -7,15 +6,12 @@ from algorithm.algorithm import Algorithm
 from controller.game import Game
 
 def main():
-    
-    
-
     # ボード
     board = Board()
 
     # ビュー
     view = View(board)
-    
+
     # ゲーム
     game = Game(view,board)
 
@@ -45,8 +41,7 @@ def main():
     view.display_winner()
 
 	# 棋譜を保存するか聞く
-    view.ask_record()
+    # view.ask_record()
 
-    
 if __name__ == '__main__':
     main()
